@@ -1,2 +1,2 @@
 # POO2
-Objected Oriented Patterns Software Engineering projects
+Object Oriented Patterns Software Engineering projects
