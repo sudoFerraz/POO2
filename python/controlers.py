@@ -310,6 +310,10 @@ class text_handler(object):
         else:
             return foundtexts
 
-
+class archive_handler(object):
+    """Classe para manipulação de arquivos das disciplines"""
+    def __init__(self):
+        self.archive = ""
+        self.discipline = ""
 
 
