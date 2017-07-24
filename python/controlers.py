@@ -85,9 +85,139 @@ class school_handler(object):
         self.schoolid = ""
         self.schooname = ""
 
-    def delete(self, schoolid):
+    def delete(self, schoolid, session):
         foundschool = session.query(School).filter_by(id=schoolid).delete()
         session.commit()
         session.flush()
+
+    def get_school_id(self, schoolname, session):
+        foundschool = session.query(School).filter_by(name=schoolname).first()
+        if not foundschool:
+            return False
+        return foundschool.id
+
+    def get_all_schools(self, session):
+        foundschools = session.query(School).order_by(School.id)
+        return foundschools
+
+    def cria_school(self, newnome, session):
+        newschool = datacontrol.School(name=newnome)
+        session.add(newschool)
+        session.commit()
+        session.flush()
+        return newschool
+
+    def update_schoolname(self, newnome, schoolid, session):
+        foundschool = session.query(School).filter_by(id=schoolid).first()
+        if not foundschool:
+            return False
+        foundschool.name = newnome
+        session.commit()
+        session.flush()
+        return foundschool
+
+class course_handler(object):
+    """Classe para manipulacao de cursos"""
+    def __init__(self):
+        self.courseid = ""
+        self.schoolid = ""
+
+    def getcourse(self, session, courseid):
+        foundcourse = session.query(Course).filter_by(id=courseid).first()
+        if not foundschool:
+            return False
+        return foundcourse
+
+    def getcourseid(self, session, coursename):
+        foundcourse = session.query(Course).filter_by(name=coursename).first()
+        if not foundcourse:
+            return False
+        return foundcourse.id
+
+    def criacourse(self, session, coursename, courseschool):
+        newcourse = datacontrol.Course(name=coursename, schoolid=courseschool)
+        session.add(newcourse)
+        session.commit()
+        session.flush()
+        return newcourse
+
+    def deletecourse(self, courseid):
+        foundcourse = session.query(Course).filter_by(id=courseid).delete()
+        session.commit()
+        session.flush()
+
+    def updatecourse(self, courseid, newname):
+        foundcourse = session.query(Course).filter_by(id=courseid).first()
+        if not foundcourse:
+            return False
+        foundcourse.name = newname
+        session.commit()
+        session.flush()
+        return foundcourse
+
+    def get_all_school_courses(self, idschool):
+        """Retorna uma lista de cursos de uma escola"""
+        foundcourses = session.query(Course).filter_by(schoolid=idschool)
+        if not foundcourses:
+            return False
+        return foundcourses
+
+class discipline_handler(object):
+    """Classe para manipulação de disciplinas"""
+    def __init__(self):
+        self.discipline = ""
+        self.course = ""
+
+    def getdiscipline(self, session, disciplineid):
+        founddiscipline = session.query(Discipline).filter_by(id=disciplineid)\
+            .first()
+        if not founddiscipline:
+            return False
+        return founddisciple
+
+    def getdisciplineid(self, session, disciplinename):
+        founddiscipline = session.query(Discipline).filter_by\
+            (name=disciplinename)
+        if not founddiscipline:
+            return False
+        return founddiscipline.id
+
+    def deletediscipline(self, session, disciplineid):
+        founddiscipline = session.query(Discipline).filter_by(id=disciplineid)\
+            .delete()
+        session.commit()
+        session.flush()
+
+    def get_all_course_disciplines(self, session, idcourse):
+        """Retorna lista de disciplinas de um curso"""
+        founddisciplines = session.query(Discipline).filter_by\
+            (courseid=idcourse)
+        if not founddisciplines:
+            return False
+        else:
+            return founddisciplines
+
+    def createdisciplines(self, disciplinename, session, disciplinecourse):
+        newdiscipline = datacontrol.Discipline(name=disciplinename, courseid=\
+                                               disciplinecourse)
+        session.add(newdiscipline)
+        session.commit()
+        session.flush()
+        return newdiscipline
+
+    def updatediscipline(self, newname, session, disciplineid):
+        founddiscipline = session.query(Discipline).filter_by(id=disciplineid)
+        if not founddiscipline:
+            return False
+        founddiscipline.name = newname
+        session.commit()
+        session.flush()
+        return founddiscipline
+
+
+
+
+
+
 
 
