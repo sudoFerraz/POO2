@@ -79,6 +79,7 @@ class Text(Base):
     id = COlumn(Integer, primary_key = True)
     name = Column(String)
     contentid = Column(Integer, ForeignKey('Content.id'))
+    text = Column(String)
 
 engine = create_engine('postgresql://postgres:postgres@localhost/postgres')
 Session = sessionmaker(bind=engine)

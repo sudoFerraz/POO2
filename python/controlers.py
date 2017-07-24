@@ -177,7 +177,7 @@ class discipline_handler(object):
 
     def getdisciplineid(self, session, disciplinename):
         founddiscipline = session.query(Discipline).filter_by\
-            (name=disciplinename)
+            (name=disciplinename).first()
         if not founddiscipline:
             return False
         return founddiscipline.id
@@ -206,7 +206,8 @@ class discipline_handler(object):
         return newdiscipline
 
     def updatediscipline(self, newname, session, disciplineid):
-        founddiscipline = session.query(Discipline).filter_by(id=disciplineid)
+        founddiscipline = session.query(Discipline).filter_by(id=disciplineid)\
+            .first()
         if not founddiscipline:
             return False
         founddiscipline.name = newname
@@ -215,21 +216,22 @@ class discipline_handler(object):
         return founddiscipline
 
 
-class Content(Base):
+class content_handler(object):
     """Classe para manipulação dos contents"""
     def __init__(self):
         self.content = ""
         self.discipline = ""
 
     def getcontent(self, session, contentid):
-        foundcontent = session.query(Content).filter_by(id=contentid)
+        foundcontent = session.query(Content).filter_by(id=contentid).first()
         if not foundcontent:
             return False
         else:
             return foundcontent
 
     def getcontentbyname(self, session, contentname):
-        foundcontent = session.query(Content).filter_by(name=contentname)
+        foundcontent = session.query(Content).filter_by(name=contentname).\
+            first()
         if not foundcontent:
             return False
         else:
@@ -266,4 +268,48 @@ class Content(Base):
         session.commit()
         session.flush()
         return foundcontent
+
+class text_handler(object):
+    """Classe para manipulação de textos de conteudo"""
+    def __init__(self):
+        self.text = ""
+        self.content = ""
+
+    def deletetext(self, session, textid):
+        foundtext = session.query(Text).filter_by(id=textid).delete()
+        session.commit()
+        session.flush()
+
+    def gettext(self, session, textid):
+        foundtext = session.query(Text).filter_by(id=textid).first()
+        if not foundtext:
+            return False
+        else:
+            return foundtext
+
+    def gettextid(self, session, textname):
+        foundtext = session.query(Text).filter_by(name=textname).first()
+        if not foundtext:
+            return False
+        else:
+            return foundtext.id
+
+    def criatext(self, session, textname, newtext, idcontent):
+        newtext = datacontrol.Text(name=textname, contentid=idcontent, \
+                                   text=newtext)
+        session.add(newtext)
+        session.commit()
+        session.flush()
+        return newtext
+
+    def get_all_content_texts(self, session, idcontent):
+        """Retorna uma lista de todos os textos de uma content"""
+        foundtexts = session.query(Text).filter_by(contentid=idcontent)
+        if not foundtexts:
+            return False
+        else:
+            return foundtexts
+
+
+
 
