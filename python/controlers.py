@@ -215,9 +215,55 @@ class discipline_handler(object):
         return founddiscipline
 
 
+class Content(Base):
+    """Classe para manipulação dos contents"""
+    def __init__(self):
+        self.content = ""
+        self.discipline = ""
+
+    def getcontent(self, session, contentid):
+        foundcontent = session.query(Content).filter_by(id=contentid)
+        if not foundcontent:
+            return False
+        else:
+            return foundcontent
+
+    def getcontentbyname(self, session, contentname):
+        foundcontent = session.query(Content).filter_by(name=contentname)
+        if not foundcontent:
+            return False
+        else:
+            return foundcontent
+
+    def deletecontent(self, session, contentid):
+        foundcontent = session.query(Content).filter_by(id=contentid).delete()
+        session.commit()
+        session.flush()
+
+    def get_all_content_by_discipline(self, session, iddiscipline):
+        """Retorna uma lista de todos os conteudos de uma disciplina"""
+        foundcontents = session.query(Content).filter_by\
+            (disciplineid=iddiscipline)
+        if not foundcontents:
+            return False
+        else:
+            return foundcontents
 
 
+    def criacontent(self, session, contentname, discipline):
+        newcontent = datacontrol.Content(name=contentname, \
+                                         disciplineid=discipline)
+        session.add(newcontent)
+        session.commit()
+        session.flush()
 
-
-
+    def update_content(self, session, contentname, contentid):
+        foundcontent = session.query(Content).filter_by(id=contentid)
+        if not foundcontent:
+            return False
+        else:
+            foundcontent.name = contentname
+        session.commit()
+        session.flush()
+        return foundcontent
 
