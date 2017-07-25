@@ -40,6 +40,13 @@ class Subscribe(Base):
     disciplineid = Column(Integer, ForeignKey('Disciplines.id'))
 
 
+class Review(Base):
+    __tablename__ = "Reviews"
+    id = Column(Integer, primary_key=True)
+    contentid = Column(Integer, ForeignKey('Contents.id'))
+    userid = Column(Integer, ForeignKey('Users.id'))
+    review = Column(String)
+
 class User(Base):
     __tablename__ = "Users"
     id = Column(Integer, primary_key=True)

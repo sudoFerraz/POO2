@@ -13,6 +13,7 @@ disciplinehandler = model.discipline_handler()
 contenthandler = model.content_handler()
 texthandler = model.text_handler()
 archivehandler = model.archive_handler()
+subscriptionhandler = model.subscription_handler()
 
 
 class Logged_normal(object, userlogged):
@@ -20,7 +21,14 @@ class Logged_normal(object, userlogged):
         self.user = userlogged
 
     def subscribe(self, iddiscipline):
-        pass
+        newsubscription = subscriptionhandler.cria_subscription\
+            (session, self.user.id, iddiscipline)
+        if not newsubscription:
+            return False
+        else:
+            return newsubscription
+
+    def
 
 
 class Logged_super(object, userlogged):
