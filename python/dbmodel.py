@@ -27,7 +27,7 @@ class Image(Base):
     __tablename__= "image"
     id = Column(Integer, primary_key=True)
     name = Column(String(128))
-    path = Colujmn(String, unique=True)
+    path = Column(String, unique=True)
 
     def __repr__(self):
         return self.name
@@ -62,23 +62,27 @@ class Discipline(Base):
     __tablename__ = "Disciplines"
     id = Column(Integer, primary_key = True)
     name = Column(String)
-    courseid = Column(Integer, ForeignKey('Course.id'))
+    courseid = Column(Integer, ForeignKey('Courses.id'))
 
 class Content(Base):
-    id = Column(Integer, primary_key = True)
     __tablename__ = "Contents"
+    id = Column(Integer, primary_key = True)
     name = Column(String)
-    disciplineid = Column(Integer, ForeignKey('Discipline.id'))
+    disciplineid = Column(Integer, ForeignKey('Disciplines.id'))
 
 class Archive(Base):
+    __tablename__ = "Archives"
     id = Column(Integer, primary_key = True)
     name = Column(String)
-    contentid = Column(Integer, ForeignKey('Content.id'))
+    contentid = Column(Integer, ForeignKey('Contents.id'))
+    extension = Column(String)
+    archive = Column(LargeBinary)
 
 class Text(Base):
-    id = COlumn(Integer, primary_key = True)
+    __tablename__ = "Texts"
+    id = Column(Integer, primary_key = True)
     name = Column(String)
-    contentid = Column(Integer, ForeignKey('Content.id'))
+    contentid = Column(Integer, ForeignKey('Contents.id'))
     text = Column(String)
 
 engine = create_engine('postgresql://postgres:postgres@localhost/postgres')

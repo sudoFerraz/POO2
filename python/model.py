@@ -1,5 +1,5 @@
 from sqlalchemy.orm import sessionmaker
-from datacontrol import User, School, Notification, Content
+from dbmodel import User, School, Notification, Content
 from prettytable import PrettyTable
 import dbmodel
 from sqlalchemy import inspect
@@ -79,7 +79,7 @@ class user_handler(object):
         session.flush()
 
 class school_handler(object):
-    """Classe para manipulação na tabela schools"""
+    """Classe para manipulacao na tabela schools"""
 
     def __init__(self):
         self.schoolid = ""
@@ -163,7 +163,7 @@ class course_handler(object):
         return foundcourses
 
 class discipline_handler(object):
-    """Classe para manipulação de disciplinas"""
+    """Classe para manipulacao de disciplinas"""
     def __init__(self):
         self.discipline = ""
         self.course = ""
@@ -217,7 +217,7 @@ class discipline_handler(object):
 
 
 class content_handler(object):
-    """Classe para manipulação dos contents"""
+    """Classe para manipulacao dos contents"""
     def __init__(self):
         self.content = ""
         self.discipline = ""
@@ -270,7 +270,7 @@ class content_handler(object):
         return foundcontent
 
 class text_handler(object):
-    """Classe para manipulação de textos de conteudo"""
+    """Classe para manipulacao de textos de conteudo"""
     def __init__(self):
         self.text = ""
         self.content = ""
@@ -311,7 +311,7 @@ class text_handler(object):
             return foundtexts
 
 class archive_handler(object):
-    """Classe para manipulação de arquivos das disciplines"""
+    """Classe para manipulacao de arquivos das disciplines"""
     def __init__(self):
         self.archive = ""
         self.discipline = ""
