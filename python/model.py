@@ -28,7 +28,7 @@ class ostools(object):
         return session
 
 class subscription_handler(object):
-    def cria_subscription(self, iduser, iddiscipline):
+    def cria_subscription(self, session, iduser, iddiscipline):
         newsubscription = dbmodel.Subscribe(userid=iduser, \
                                             disciplineid=iddiscipline)
         session.add(newsubscription)
@@ -36,14 +36,14 @@ class subscription_handler(object):
         session.flush()
         return newsubscription
 
-    def get_user_subscriptions(self, iduser):
+    def get_user_subscriptions(self, session, iduser):
         user_subscriptions = session.query(Subscribers).filter_by(userid=iduser)
         if not user_subscriptions:
             return False
         else:
             return user_subscriptions
 
-    def get_discipline_subscribers(self, iddiscipline):
+    def get_discipline_subscribers(self, session, iddiscipline):
         discipline_subscribers = session.query(Subscribers).\
             filter_by(disciplineid=iddiscipline)
         if not discipline_subscribers:
@@ -51,7 +51,7 @@ class subscription_handler(object):
         else:
             return discipline_subscribers
 
-    def delete_subscription(self, iddiscpline, iduser):
+    def delete_subscription(self, session, iddiscpline, iduser):
         deleted_subscription = session.query(Subscribers).\
             filter_by(userid=iduser, disciplineid=iddiscipline).delete()
         session.commit()

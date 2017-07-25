@@ -20,6 +20,7 @@ class Logged_normal(object, userlogged):
         self.user = userlogged
 
     def subscribe(self, iddiscipline):
+        pass
 
 
 class Logged_super(object, userlogged):
