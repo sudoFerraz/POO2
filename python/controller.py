@@ -28,7 +28,22 @@ class Logged_normal(object, userlogged):
         else:
             return newsubscription
 
-    def
+    def register_school(self, schoolname):
+        newschool = schoolhandler.cria_school(schoolname, session)
+        return newschool
+
+    def register_courses(self, coursename, schoolname):
+        schoolid = schoolhandler.get_school_id(schoolname, session)
+        if not schoolid:
+            return False
+        else:
+            newcourse = coursehandler.criacourse(session, coursename, schoolid)
+            if not newcourse:
+                return False
+            else:
+                return True
+
+
 
 
 class Logged_super(object, userlogged):
@@ -36,7 +51,12 @@ class Logged_super(object, userlogged):
         self.user = userlogged
 
     def subscribe(self, iddiscpline):
-        pass
+        newsubscription = subscriptionhandler.cria_subscription\
+            (session, self.user.id, iddiscipline)
+        if not newsubscription:
+            return False
+        else:
+            return newsubscription
 
 class Not_Logged(object):
     """Nao logado no servidor ainda"""
