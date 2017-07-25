@@ -32,6 +32,14 @@ class Image(Base):
     def __repr__(self):
         return self.name
 
+
+class Subscribe(Base):
+    __tablename__ = "Subscribers"
+    id = Column(Integer, primary_key=True)
+    userid = Column(Integer, ForeignKey('Users.id'))
+    disciplineid = Column(Integer, ForeignKey('Disciplines.id'))
+
+
 class User(Base):
     __tablename__ = "Users"
     id = Column(Integer, primary_key=True)
@@ -56,7 +64,7 @@ class Course(Base):
     __tablename__ = "Courses"
     id = Column(Integer, primary_key = True)
     name = Column(String)
-    schoolid = (Integer, ForeignKey('School.id'))
+    schoolid = (Integer, ForeignKey('Schools.id'))
 
 class Discipline(Base):
     __tablename__ = "Disciplines"

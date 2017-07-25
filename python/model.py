@@ -27,6 +27,36 @@ class ostools(object):
         session = Session
         return session
 
+class subscription_handler(object):
+    def cria_subscription(self, iduser, iddiscipline):
+        newsubscription = dbmodel.Subscribe(userid=iduser, \
+                                            disciplineid=iddiscipline)
+        session.add(newsubscription)
+        session.commit()
+        session.flush()
+        return newsubscription
+
+    def get_user_subscriptions(self, iduser):
+        user_subscriptions = session.query(Subscribers).filter_by(userid=iduser)
+        if not user_subscriptions:
+            return False
+        else:
+            return user_subscriptions
+
+    def get_discipline_subscribers(self, iddiscipline):
+        discipline_subscribers = session.query(Subscribers).\
+            filter_by(disciplineid=iddiscipline)
+        if not discipline_subscribers:
+            return False
+        else:
+            return discipline_subscribers
+
+    def delete_subscription(self, iddiscpline, iduser):
+        deleted_subscription = session.query(Subscribers).\
+            filter_by(userid=iduser, disciplineid=iddiscipline).delete()
+        session.commit()
+        session.flush
+
 class user_handler(object):
     """Funcoes auxiliares para manejamento da tabela USER"""
     def __init__(self):
@@ -34,7 +64,7 @@ class user_handler(object):
         self.logged = False
 
     def criauser(self,session,newemail,newpass,newname,newschool,newbirth):
-        newuser = datacontrol.User(name=newname, email=newemail, \
+        newuser = dbmodel.User(name=newname, email=newemail, \
                                    password=newpassword, school=newschool, \
                                    dnascimento=newbirth, usertype=0)
         session.add(newuser)
@@ -101,7 +131,7 @@ class school_handler(object):
         return foundschools
 
     def cria_school(self, newnome, session):
-        newschool = datacontrol.School(name=newnome)
+        newschool = dbmodel.School(name=newnome)
         session.add(newschool)
         session.commit()
         session.flush()
@@ -135,7 +165,7 @@ class course_handler(object):
         return foundcourse.id
 
     def criacourse(self, session, coursename, courseschool):
-        newcourse = datacontrol.Course(name=coursename, schoolid=courseschool)
+        newcourse = dbmodel.Course(name=coursename, schoolid=courseschool)
         session.add(newcourse)
         session.commit()
         session.flush()
@@ -198,7 +228,7 @@ class discipline_handler(object):
             return founddisciplines
 
     def createdisciplines(self, disciplinename, session, disciplinecourse):
-        newdiscipline = datacontrol.Discipline(name=disciplinename, courseid=\
+        newdiscipline = dbmodel.Discipline(name=disciplinename, courseid=\
                                                disciplinecourse)
         session.add(newdiscipline)
         session.commit()
@@ -253,7 +283,7 @@ class content_handler(object):
 
 
     def criacontent(self, session, contentname, discipline):
-        newcontent = datacontrol.Content(name=contentname, \
+        newcontent = dbmodel.Content(name=contentname, \
                                          disciplineid=discipline)
         session.add(newcontent)
         session.commit()
@@ -295,7 +325,7 @@ class text_handler(object):
             return foundtext.id
 
     def criatext(self, session, textname, newtext, idcontent):
-        newtext = datacontrol.Text(name=textname, contentid=idcontent, \
+        newtext = dbmodel.Text(name=textname, contentid=idcontent, \
                                    text=newtext)
         session.add(newtext)
         session.commit()
