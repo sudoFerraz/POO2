@@ -1,0 +1,14 @@
+digraph "classes_No_Name" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{archive_handler|archive : str\ldiscipline : str\l|}", shape="record"];
+"1" [label="{content_handler|content : str\ldiscipline : str\l|criacontent()\ldeletecontent()\lget_all_content_by_discipline()\lgetcontent()\lgetcontentbyname()\lupdate_content()\lvalidate_content()\l}", shape="record"];
+"2" [label="{course_handler|courseid : str\lschoolid : str\l|criacourse()\ldeletecourse()\lget_all_school_courses()\lgetcourse()\lgetcourseid()\lupdatecourse()\l}", shape="record"];
+"3" [label="{discipline_handler|course : str\ldiscipline : str\l|createdisciplines()\ldeletediscipline()\lget_all_course_disciplines()\lgetdiscipline()\lgetdisciplineid()\lupdatediscipline()\l}", shape="record"];
+"4" [label="{ostools|ip : str\los : str\luser : str\l|dbconnection()\lsshconnection()\l}", shape="record"];
+"5" [label="{review_handler|\l|cria_review()\l}", shape="record"];
+"6" [label="{school_handler|schoolid : str\lschooname : str\l|cria_school()\ldelete()\lget_all_schools()\lget_school_id()\lupdate_schoolname()\lvalidateschool()\l}", shape="record"];
+"7" [label="{subscription_handler|\l|cria_subscription()\ldelete_subscription()\lget_discipline_subscribers()\lget_user_subscriptions()\l}", shape="record"];
+"8" [label="{text_handler|content : str\ltext : str\l|criatext()\ldeletetext()\lget_all_content_texts()\lgettext()\lgettextid()\l}", shape="record"];
+"9" [label="{user_handler|logged : bool\luser : str, Column\l|criauser()\ldelete()\lgetuser()\lupdatepass()\lupdatetype()\l}", shape="record"];
+}

@@ -43,20 +43,77 @@ class Logged_normal(object, userlogged):
             else:
                 return True
 
+    def register_discipline(self, disciplinename, courseid):
+        newdiscipline = disciplinehandler.creatediscipline(disciplinename, \
+                                                           session, courseid)
+        if not newdiscipline:
+            return False
+        else:
+            return newdiscipline
+
+
+    def review_content(self, contentid, userreview):
+        newreview = reviewhandler.cria_review(session, contentid, self.user.id,\
+                                               userreview)
+        if not newreview:
+            return False
+        else:
+            return newreview
+
+    def search_discipline_by_course(self, courseid):
+        disciplines = disciplinehandler.get_all_course_disciplines(session, \
+                                                                   courseid)
+        if not disciplines:
+            return False
+        else:
+            return disciplines
+
+    def search_content_by_discipline(self, disciplineid):
+        contents = contenthandler.get_all_content_by_discipline(session, \
+                                                                disciplineid)
+        if not contents:
+            return False
+        else:
+            return contents
+
+    def search_courses_by_school(self, schoolid):
+        courses = coursehandler.get_all_school_courses(session, schoolid)
+        if not courses:
+            return False
+        else:
+            return courses
 
 
 
-class Logged_super(object, userlogged):
+    def register_text(self, contentname, disciplineid, newtext):
+        newcontent = contenthandler.criacontent(session, contentname, disciplineid)
+        if not newcontent:
+            return False
+        else:
+            newtext = texthandler.criatext(session, newtext, newcontent.id)
+            if not newtext:
+                return False
+            else:
+                return newtext
+
+class Logged_super(object, Logged_normal(), userlogged):
     def __init__(self, userlogged):
         self.user = userlogged
 
-    def subscribe(self, iddiscpline):
-        newsubscription = subscriptionhandler.cria_subscription\
-            (session, self.user.id, iddiscipline)
-        if not newsubscription:
+    def validate_school(schoolid, session):
+        validatedschool = schoolhandler.validateschool(schoolid, session)
+        if not validatedschool:
             return False
         else:
-            return newsubscription
+            return validatedschool
+
+    def validate_content(contentid, session):
+        validatedcontent = contenthandler.validate_content(session, contentid)
+        if not validatedcontent:
+            return False
+        else:
+            return validatedcontent
+
 
 class Not_Logged(object):
     """Nao logado no servidor ainda"""

@@ -27,25 +27,10 @@ class Image(Base):
     __tablename__= "image"
     id = Column(Integer, primary_key=True)
     name = Column(String(128))
-    path = Column(String, unique=True)
+    path = Colujmn(String, unique=True)
 
     def __repr__(self):
         return self.name
-
-
-class Subscribe(Base):
-    __tablename__ = "Subscribers"
-    id = Column(Integer, primary_key=True)
-    userid = Column(Integer, ForeignKey('Users.id'))
-    disciplineid = Column(Integer, ForeignKey('Disciplines.id'))
-
-
-class Review(Base):
-    __tablename__ = "Reviews"
-    id = Column(Integer, primary_key=True)
-    contentid = Column(Integer, ForeignKey('Contents.id'))
-    userid = Column(Integer, ForeignKey('Users.id'))
-    review = Column(Boolean)
 
 class User(Base):
     __tablename__ = "Users"
@@ -66,41 +51,33 @@ class School(Base):
     __tablename__ = "Schools"
     id = Column(Integer, primary_key = True)
     name = Column(String)
-    flag = Column(Boolean)
 
 class Course(Base):
     __tablename__ = "Courses"
     id = Column(Integer, primary_key = True)
     name = Column(String)
-    schoolid = (Integer, ForeignKey('Schools.id'))
+    schoolid = (Integer, ForeignKey('School.id'))
 
 class Discipline(Base):
     __tablename__ = "Disciplines"
     id = Column(Integer, primary_key = True)
     name = Column(String)
-    courseid = Column(Integer, ForeignKey('Courses.id'))
+    courseid = Column(Integer, ForeignKey('Course.id'))
 
 class Content(Base):
-    __tablename__ = "Contents"
     id = Column(Integer, primary_key = True)
+    __tablename__ = "Contents"
     name = Column(String)
-    disciplineid = Column(Integer, ForeignKey('Disciplines.id'))
+    disciplineid = Column(Integer, ForeignKey('Discipline.id'))
 
 class Archive(Base):
-    __tablename__ = "Archives"
     id = Column(Integer, primary_key = True)
-    name = Column(String)
-    contentid = Column(Integer, ForeignKey('Contents.id'))
-    extension = Column(String)
-    archive = Column(LargeBinary)
+    contentid = Column(Integer, ForeignKey('Content.id'))
 
 class Text(Base):
-    __tablename__ = "Texts"
-    id = Column(Integer, primary_key = True)
-    name = Column(String)
-    contentid = Column(Integer, ForeignKey('Contents.id'))
+    id = COlumn(Integer, primary_key = True)
+    contentid = Column(Integer, ForeignKey('Content.id'))
     text = Column(String)
-    flag = Column(Boolean)
 
 engine = create_engine('postgresql://postgres:postgres@localhost/postgres')
 Session = sessionmaker(bind=engine)

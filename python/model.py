@@ -27,6 +27,16 @@ class ostools(object):
         session = Session
         return session
 
+class review_handler(object):
+    def cria_review(self, session, idcontent, iduser, userreview):
+        newreview = dbmodel.Review(contentid=idcontent, userid=iduser, \
+                                   review=userreview)
+        session.add(newreview)
+        session.commit()
+        session.flush()
+        return newreview
+
+
 class subscription_handler(object):
     def cria_subscription(self, session, iduser, iddiscipline):
         newsubscription = dbmodel.Subscribe(userid=iduser, \
@@ -115,6 +125,14 @@ class school_handler(object):
         self.schoolid = ""
         self.schooname = ""
 
+    def validateschool(self, schoolid, session):
+        foundschool = session.query(School).filter_by(id=schoolid).first()
+        if not foundschool:
+            return False
+        else:
+            foundschool.flag = 1
+            return foundschool
+
     def delete(self, schoolid, session):
         foundschool = session.query(School).filter_by(id=schoolid).delete()
         session.commit()
@@ -170,6 +188,14 @@ class course_handler(object):
         session.commit()
         session.flush()
         return newcourse
+
+    def get_all_school_courses(self, session, idschool):
+        foundcourses = session.query(Course).filter_by(schoolid=idschool)
+        if not foundcourses:
+            return False
+        else:
+            return foundcourses
+
 
     def deletecourse(self, courseid):
         foundcourse = session.query(Course).filter_by(id=courseid).delete()
@@ -267,6 +293,14 @@ class content_handler(object):
         else:
             return foundcontent
 
+    def validate_content(self, session, contentid):
+        validatedcontent = session.query(Content).filter_by(id=contentid)
+        if not validatedcontent:
+            return False
+        else:
+            validatedcontent.flag = 1
+            return validatedcontent
+
     def deletecontent(self, session, contentid):
         foundcontent = session.query(Content).filter_by(id=contentid).delete()
         session.commit()
@@ -288,6 +322,7 @@ class content_handler(object):
         session.add(newcontent)
         session.commit()
         session.flush()
+        return newcontent
 
     def update_content(self, session, contentname, contentid):
         foundcontent = session.query(Content).filter_by(id=contentid)
@@ -324,8 +359,8 @@ class text_handler(object):
         else:
             return foundtext.id
 
-    def criatext(self, session, textname, newtext, idcontent):
-        newtext = dbmodel.Text(name=textname, contentid=idcontent, \
+    def criatext(self, session, newtext, idcontent):
+        newtext = dbmodel.Text(contentid=idcontent, \
                                    text=newtext)
         session.add(newtext)
         session.commit()
