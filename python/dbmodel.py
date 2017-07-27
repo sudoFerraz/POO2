@@ -1,5 +1,4 @@
 import sqlalchemy
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Boolean, Date, DateTime
 from sqlalchemy import LargeBinary
 from sqlalchemy import ForeignKey
@@ -9,11 +8,11 @@ from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func
 from jinja2 import Markup
 import os
-from flask.ext.admin import Admin
-from flask_admin.contrib.sqla import ModelView
+from sqlalchemy.ext.declarative import declarative_base
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-file_path = os.path.join(basedir, 'static')
+
+#basedir = os.path.abspath(os.path.dirname(__file__))
+#file_path = os.path.join(basedir, 'static')
 Base = declarative_base()
 
 class Notification(Base):
